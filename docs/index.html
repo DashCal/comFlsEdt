@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="white">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light dark">
+    <title>FlashEdit | A quick markdown editor | LocalWu</title>
+
+    <!-- Favicon -->
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✏</text></svg>">
+
+    <!-- 字体：等宽（编辑器 mono 模式 + 代码块） -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- 样式 -->
+    <link rel="stylesheet" href="style/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <!-- ════════════════════════════════════════════════
+         应用主体
+         ════════════════════════════════════════════════ -->
+    <div class="app">
+
+        <!-- 工具栏（由 Toolbar 类动态渲染） -->
+        <header id="toolbar" class="toolbar" role="toolbar" aria-label="编辑工具"></header>
+
+        <!-- 编辑区域（由 Editor 类动态创建 contenteditable 或 textarea） -->
+        <main id="editor-area" class="editor-area" aria-label="文档编辑区"></main>
+
+        <!-- 状态栏 -->
+        <footer id="status-bar" class="status-bar" role="status">
+            <div class="status-left">
+                <span id="status-chars">-</span>
+                <span class="status-sep" aria-hidden="true">│</span>
+                <span id="status-lines">-</span>
+                <span class="status-sep" aria-hidden="true">│</span>
+                <span id="status-saved">就绪</span>
+            </div>
+            <div class="status-right">
+                <span id="status-storage">-</span>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- Toast 通知（由 showToast() 控制显隐） -->
+    <div id="toast" class="toast" role="alert" aria-live="polite"></div>
+
+    <!-- ════════════════════════════════════════════════
+         图标库（唯一外部依赖）
+         通过 <i data-lucide="icon-name"></i> 使用
+         JS 中调用 lucide.createIcons() 渲染
+         ════════════════════════════════════════════════ -->
+    <script src="https://cdn.jsdelivr.net/npm/lucide@0.394.0/dist/umd/lucide.min.js"></script>
+
+    <!-- ════════════════════════════════════════════════
+         应用脚本（严格按依赖顺序加载）
+         1. storage   — localStorage 封装，无依赖
+         2. config    — 配置管理，依赖 Storage
+         3. theme     — 主题切换，依赖 Config
+         4. md-engine — Markdown 解析/序列化，无外部依赖
+         5. editor    — WYSIWYG 编辑器核心，依赖 Markdown + Config
+         6. ui        — Toolbar + Settings + StatusBar + Toast
+         7. app       — 入口协调器，依赖以上全部
+         ════════════════════════════════════════════════ -->
+    <script src="script/storage.js"></script>
+    <script src="script/config.js"></script>
+    <script src="script/theme.js"></script>
+    <script src="script/md-engine.js"></script>
+    <script src="script/editor.js"></script>
+    <script src="script/ui.js"></script>
+    <script src="script/app.js"></script>
+
+</body>
+
+</html>

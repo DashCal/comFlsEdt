@@ -1,0 +1,1372 @@
+/* ═══════════════════════════════════════════════════════════════
+   MD Editor — Styles
+   双主题 (简洁白 / 代码黑) + CSS 变量驱动
+   ═══════════════════════════════════════════════════════════════ */
+
+
+/* ─────────────────────────────────────────
+   1. CSS Variables
+   ───────────────────────────────────────── */
+
+:root {
+    /* 字体栈 */
+    --font-sans:
+        Inter Display, Inter, Noto Sans SC, Source Han Sans SC, Noto Sans CN, Source Han Sans CN, Noto Sans TC, Source Han Sans TC, Noto Sans CJK, Source Han Sans CJK, Noto Sans, Source Han Sans, "PingFang SC", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Microsoft YaHei",
+        "Helvetica Neue", Arial, sans-serif;
+    --font-serif: IBM Plex Serif, Noto Serif SC, Source Han Serif SC, Noto Serif CN, Source Han Serif CN, Noto Serif TC, Source Han Serif TC, Noto Serif CJK, Source Han Serif CJK, Noto Serif, Source Han Serif, Georgia,
+        "Songti SC", "Times New Roman", serif;
+    --font-mono: IBM Plex Mono, "JetBrains Mono", Glow Sans SC, "Fira Code", "SF Mono", "Cascadia Code",
+        Consolas, "Liberation Mono", Menlo, Inter Display, Inter, Noto Sans SC, Source Han Sans SC, Noto Sans, Source Han Sans, "PingFang SC", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Microsoft YaHei",
+        "Helvetica Neue", Arial, monospace;
+
+    /* 可被 JS 覆盖的动态尺寸 */
+    --h1-size: 32px;
+    --h2-size: 26px;
+    --h3-size: 22px;
+    --editor-font: var(--font-sans);
+    --editor-line-height: 1.8;
+    --editor-max-width: 720px;
+}
+
+/* ── 简洁白 ── */
+:root,
+[data-theme="white"] {
+    --bg-primary: #ffffff;
+    --bg-secondary: #f8f8f6;
+    --bg-surface: #ffffff;
+    --bg-editor: #ffffff;
+    --text-primary: #1a1a1a;
+    --text-secondary: #555555;
+    --text-muted: #999999;
+    --accent: #2563eb;
+    --accent-hover: #1d4ed8;
+    --accent-subtle: #dbeafe;
+    --border: #e5e7eb;
+    --border-light: #f0f0f0;
+    --shadow: rgba(0, 0, 0, 0.06);
+    --shadow-lg: rgba(0, 0, 0, 0.12);
+    --code-bg: #f1f3f5;
+    --code-text: #d6336c;
+    --code-block-bg: #ededed;
+    --code-block-text: #cdd6f4;
+    --code-block-ln: #6c7086;
+    --hr-color: #e5e7eb;
+    --blockquote-border: #d1d5db;
+    --blockquote-text: #6b7280;
+    --link-color: #2563eb;
+    --scrollbar-thumb: #d1d5db;
+    --scrollbar-track: transparent;
+    --selection-bg: #b6d4fe;
+    --toolbar-bg: #fafafa;
+    --toolbar-btn-hover: #f0f0f0;
+    --toolbar-btn-active: #dbeafe;
+    --modal-overlay: rgba(15, 15, 15, 0.35);
+    --modal-bg: #ffffff;
+    --modal-sidebar-bg: #f8f8f6;
+    --toast-bg: #1a1a1a;
+    --toast-text: #ffffff;
+    --input-bg: #ffffff;
+    --input-border: #d1d5db;
+    --input-focus: #2563eb;
+}
+
+/* ── 代码黑 ── */
+[data-theme="dark"] {
+    --bg-primary: #0e0e10;
+    --bg-secondary: #161618;
+    --bg-surface: #1a1a1e;
+    --bg-editor: #0e0e10;
+    --text-primary: #e4e4e7;
+    --text-secondary: #a1a1aa;
+    --text-muted: #71717a;
+    --accent: #60a5fa;
+    --accent-hover: #93c5fd;
+    --accent-subtle: rgba(96, 165, 250, 0.12);
+    --border: #27272a;
+    --border-light: #1f1f23;
+    --shadow: rgba(0, 0, 0, 0.3);
+    --shadow-lg: rgba(0, 0, 0, 0.5);
+    --code-bg: #27272a;
+    --code-text: #f472b6;
+    --code-block-bg: #26262c;
+    --code-block-text: #cdd6f4;
+    --code-block-ln: #45475a;
+    --hr-color: #2e2e32;
+    --blockquote-border: #3f3f46;
+    --blockquote-text: #8b8b94;
+    --link-color: #60a5fa;
+    --scrollbar-thumb: #3f3f46;
+    --scrollbar-track: transparent;
+    --selection-bg: rgba(96, 165, 250, 0.22);
+    --toolbar-bg: #161618;
+    --toolbar-btn-hover: #27272a;
+    --toolbar-btn-active: rgba(96, 165, 250, 0.15);
+    --modal-overlay: rgba(0, 0, 0, 0.6);
+    --modal-bg: #18181b;
+    --modal-sidebar-bg: #141416;
+    --toast-bg: #e4e4e7;
+    --toast-text: #0e0e10;
+    --input-bg: #1a1a1e;
+    --input-border: #3f3f46;
+    --input-focus: #60a5fa;
+}
+
+
+/* ─────────────────────────────────────────
+   2. Reset & Base
+   ───────────────────────────────────────── */
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    height: 100%;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+}
+
+body {
+    height: 100%;
+    font-family: var(--font-sans);
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--text-primary);
+    background: var(--bg-primary);
+    overflow: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+button {
+    font-family: inherit;
+    font-size: inherit;
+    border: none;
+    background: none;
+    color: inherit;
+    cursor: pointer;
+    line-height: 1;
+}
+
+select,
+input,
+textarea {
+    font-family: inherit;
+    font-size: inherit;
+    color: inherit;
+}
+
+::selection {
+    background: var(--selection-bg);
+}
+
+/* Firefox scrollbar */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+}
+
+
+/* ─────────────────────────────────────────
+   3. App Layout
+   ───────────────────────────────────────── */
+
+.app {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    height: 100dvh;
+    background: var(--bg-primary);
+}
+
+.toolbar {
+    flex-shrink: 0;
+}
+
+.editor-area {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    background: var(--bg-editor);
+    position: relative;
+}
+
+
+/* ─────────────────────────────────────────
+   4. Toolbar
+   ───────────────────────────────────────── */
+
+.toolbar {
+    background: var(--toolbar-bg);
+    border-bottom: 1px solid var(--border);
+    padding: 6px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    user-select: none;
+}
+
+.toolbar-row {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    flex-wrap: wrap;
+}
+
+.fe-logo-word {
+    font-weight: 700;
+    color: var(--accent);
+}
+
+.toolbar-group {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+}
+
+.toolbar-sep {
+    width: 1px;
+    height: 20px;
+    background: var(--border);
+    margin: 0 6px;
+    flex-shrink: 0;
+}
+
+.toolbar-spacer {
+    flex: 1;
+}
+
+/* ── 工具栏按钮 ── */
+
+.toolbar-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 30px;
+    border-radius: 6px;
+    color: var(--text-secondary);
+    transition: background 0.12s ease, color 0.12s ease;
+    position: relative;
+    flex-shrink: 0;
+}
+
+.toolbar-btn:hover {
+    background: var(--toolbar-btn-hover);
+    color: var(--text-primary);
+}
+
+.toolbar-btn:active {
+    transform: scale(0.95);
+}
+
+.toolbar-btn.active {
+    background: var(--toolbar-btn-active);
+    color: var(--accent);
+}
+
+.toolbar-btn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.toolbar-btn svg {
+    width: 16px;
+    height: 16px;
+    stroke-width: 2;
+}
+
+/* ── 带文字的按钮（用于导入/导出等） ── */
+
+.toolbar-btn-text {
+    width: auto;
+    padding: 0 10px;
+    gap: 5px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.toolbar-btn-text svg {
+    width: 14px;
+    height: 14px;
+}
+
+/* ── 视图切换 ── */
+
+.view-toggle {
+    display: inline-flex;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.view-btn {
+    padding: 4px 14px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-muted);
+    background: transparent;
+    transition: all 0.15s ease;
+    border: none;
+    cursor: pointer;
+}
+
+.view-btn:hover {
+    color: var(--text-primary);
+    background: var(--toolbar-btn-hover);
+}
+
+.view-btn.active {
+    background: var(--accent);
+    color: #ffffff;
+}
+
+/* ── 主题切换按钮 ── */
+
+.theme-btn {
+    font-size: 15px;
+    width: 32px;
+    height: 30px;
+}
+
+
+/* ─────────────────────────────────────────
+   5. Editor Container
+   ───────────────────────────────────────── */
+
+.editor-wrap {
+    max-width: var(--editor-max-width);
+    margin: 0 auto;
+    padding: 48px 24px 240px;
+    min-height: 100%;
+    /* height: 100%; */
+}
+
+.editor-content {
+    outline: none;
+    word-break: break-word;
+    white-space: pre-wrap;
+    font-family: var(--editor-font);
+    font-size: 16px;
+    line-height: var(--editor-line-height);
+    color: var(--text-primary);
+    caret-color: var(--accent);
+}
+
+.editor-content:empty::before {
+    content: '';
+}
+
+/* ── Markdown 源码 textarea ── */
+
+.editor-source {
+    width: 100%;
+    min-height: calc(100vh - 160px);
+    border: none;
+    outline: none;
+    resize: none;
+    background: transparent;
+    color: var(--text-primary);
+    font-family: var(--font-sans);
+    font-size: 14px;
+    line-height: 1.75;
+    tab-size: 2;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    caret-color: var(--accent);
+}
+
+
+/* ─────────────────────────────────────────
+   6. Editor — Block Elements
+   ───────────────────────────────────────── */
+
+/* ── 基础块 ── */
+
+.block {
+    margin-bottom: 0.2em;
+    position: relative;
+}
+
+.block:first-child {
+    margin-top: 0;
+}
+
+/* ── 段落 ── */
+
+.block.p {
+    /* 默认段落样式 */
+}
+
+/* ── 标题 ── */
+
+.block.h1 {
+    font-size: var(--h1-size);
+    font-weight: 700;
+    line-height: 1.3;
+    margin-top: 1.4em;
+    margin-bottom: 0.4em;
+    letter-spacing: -0.01em;
+}
+
+.block.h2 {
+    font-size: var(--h2-size);
+    font-weight: 700;
+    line-height: 1.35;
+    margin-top: 1.2em;
+    margin-bottom: 0.35em;
+    letter-spacing: -0.005em;
+}
+
+.block.h3 {
+    font-size: var(--h3-size);
+    font-weight: 600;
+    line-height: 1.4;
+    margin-top: 1em;
+    margin-bottom: 0.3em;
+}
+
+.block.h4 {
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 1.45;
+    margin-top: 0.8em;
+    margin-bottom: 0.25em;
+}
+
+.block.h5 {
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.5;
+    margin-top: 0.6em;
+}
+
+.block.h6 {
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.5;
+    margin-top: 0.6em;
+    color: var(--text-secondary);
+}
+
+/* 首个标题无上间距 */
+.block.h1:first-child,
+.block.h2:first-child,
+.block.h3:first-child {
+    margin-top: 0;
+}
+
+/* ── 列表 ── */
+
+.block.ul,
+.block.ol {
+    padding-left: 1.6em;
+    margin: 0.3em 0;
+}
+
+.block.ul .li,
+.block.ol .li {
+    position: relative;
+    margin-bottom: 0.15em;
+}
+
+.block.ul .li::before {
+    content: '•';
+    position: absolute;
+    left: -1.2em;
+    color: var(--text-muted);
+    font-weight: 700;
+}
+
+.block.ol {
+    counter-reset: ol-counter;
+}
+
+.block.ol .li {
+    counter-increment: ol-counter;
+}
+
+.block.ol .li::before {
+    content: counter(ol-counter) '.';
+    position: absolute;
+    left: -1.6em;
+    color: var(--text-muted);
+    min-width: 1.2em;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+}
+
+/* ── 引用 ── */
+
+.block.blockquote {
+    border-left: 3px solid var(--blockquote-border);
+    padding: 4px 0 4px 16px;
+    color: var(--blockquote-text);
+    margin: 0.5em 0;
+}
+
+/* ── 代码块 ── */
+
+.block.code {
+    background: var(--code-block-bg);
+    color: var(--code-block-text);
+    border-radius: 8px;
+    padding: 18px 20px;
+    margin: 0.8em 0;
+    overflow-x: auto;
+    position: relative;
+}
+
+.block.code code {
+    font-family: var(--font-mono);
+    font-size: 13.5px;
+    line-height: 1.65;
+    white-space: pre;
+    background: none;
+    color: inherit;
+    padding: 0;
+    border-radius: 0;
+}
+
+/* 语言标签 */
+.block.code[data-lang]::after {
+    content: attr(data-lang);
+    position: absolute;
+    top: 10px;
+    right: 14px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--code-block-ln);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    pointer-events: none;
+}
+
+/* ── 分割线 ── */
+
+.block.hr {
+    margin: 1.6em 0;
+    text-align: center;
+}
+
+.block.hr hr {
+    border: none;
+    border-top: 2px solid var(--hr-color);
+    margin: 0;
+}
+
+/* ── 图片块 ── */
+
+.block.figure {
+    text-align: center;
+    margin: 1em 0;
+}
+
+.block.figure img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 6px;
+    box-shadow: 0 2px 12px var(--shadow);
+    cursor: pointer;
+    transition: box-shadow 0.2s ease;
+}
+
+.block.figure img:hover {
+    box-shadow: 0 4px 20px var(--shadow-lg);
+}
+
+
+/* ─────────────────────────────────────────
+   7. Editor — Inline Elements
+   ───────────────────────────────────────── */
+
+.editor-content strong {
+    font-weight: 700;
+}
+
+.editor-content em {
+    font-style: italic;
+}
+
+.editor-content del {
+    text-decoration: line-through;
+    color: var(--text-muted);
+}
+
+.editor-content code {
+    font-family: var(--font-mono);
+    font-size: 0.88em;
+    background: var(--code-bg);
+    color: var(--code-text);
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+.editor-content a {
+    color: var(--link-color);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    text-decoration-color: color-mix(in srgb, var(--link-color) 40%, transparent);
+    transition: text-decoration-color 0.15s;
+}
+
+.editor-content a:hover {
+    text-decoration-color: var(--link-color);
+}
+
+.editor-content img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+    vertical-align: middle;
+}
+
+.editor-content br {
+    /* 换行 */
+}
+
+/* ── 行号 ── */
+
+.editor-gutter {
+    display: none;
+    width: 48px;
+    flex-shrink: 0;
+    padding: 48px 0 240px 0;
+    text-align: right;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    line-height: var(--editor-line-height);
+    color: var(--text-muted);
+    overflow: hidden;
+    user-select: none;
+    border-right: 1px solid var(--border-light);
+    background: var(--bg-secondary);
+}
+
+.gutter-line {
+    padding-right: 12px;
+    height: calc(16px * var(--editor-line-height));
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-end;
+}
+
+/* 链接可点击提示 */
+
+.editor-content a {
+    cursor: pointer;
+}
+
+.editor-content a:hover {
+    opacity: 0.8;
+}
+
+
+/* ─────────────────────────────────────────
+   8. Status Bar
+   ───────────────────────────────────────── */
+
+.status-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 4px 16px;
+    background: var(--toolbar-bg);
+    border-top: 1px solid var(--border);
+    font-size: 12px;
+    color: var(--text-muted);
+    user-select: none;
+    flex-shrink: 0;
+    min-height: 28px;
+}
+
+.status-left,
+.status-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.status-sep {
+    color: var(--border);
+    font-size: 10px;
+}
+
+
+/* ─────────────────────────────────────────
+   9. Modal
+   ───────────────────────────────────────── */
+
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: var(--modal-overlay);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    animation: fadeIn 0.18s ease;
+    backdrop-filter: blur(2px);
+}
+
+.modal-panel {
+    background: var(--modal-bg);
+    border-radius: 14px;
+    width: 660px;
+    max-width: calc(100vw - 40px);
+    max-height: 82vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 24px 80px var(--shadow-lg),
+        0 0 0 1px var(--border);
+    animation: slideUp 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+    overflow: hidden;
+    user-select: none;
+}
+
+.modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 24px;
+    border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+}
+
+.modal-header h2 {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.modal-close {
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    color: var(--text-muted);
+    font-size: 18px;
+    transition: all 0.12s;
+}
+
+.modal-close:hover {
+    background: var(--toolbar-btn-hover);
+    color: var(--text-primary);
+}
+
+.modal-body {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+}
+
+/* ── 侧边栏 Tab 导航 ── */
+
+.modal-sidebar {
+    width: 160px;
+    padding: 12px 10px;
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    flex-shrink: 0;
+    background: var(--modal-sidebar-bg);
+}
+
+.modal-tab {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    padding: 8px 12px;
+    border: none;
+    background: transparent;
+    color: var(--text-secondary);
+    font-size: 13px;
+    text-align: left;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.12s ease;
+    margin-bottom: 2px;
+}
+
+.modal-tab:hover {
+    background: var(--toolbar-btn-hover);
+    color: var(--text-primary);
+}
+
+.modal-tab.active {
+    background: var(--accent-subtle);
+    color: var(--accent);
+    font-weight: 600;
+}
+
+.modal-tab-icon {
+    font-size: 14px;
+    width: 18px;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+.modal-divider {
+    height: 1px;
+    background: var(--border);
+    margin: 8px 4px;
+}
+
+/* ── Tab 内容区 ── */
+
+.modal-content {
+    flex: 1;
+    padding: 20px 24px;
+    overflow-y: auto;
+    max-height: 25rem;
+}
+
+.modal-section-title {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-muted);
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border-light);
+}
+
+
+/* ─────────────────────────────────────────
+   10. Settings Controls
+   ───────────────────────────────────────── */
+
+.setting-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border-light);
+    gap: 16px;
+}
+
+.setting-row:last-child {
+    border-bottom: none;
+}
+
+.setting-row.disabled {
+    opacity: 0.35;
+    pointer-events: none;
+}
+
+.setting-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.setting-label {
+    font-size: 13.5px;
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+.setting-desc {
+    font-size: 11.5px;
+    color: var(--text-muted);
+    margin-top: 2px;
+    line-height: 1.4;
+}
+
+.setting-control {
+    flex-shrink: 0;
+}
+
+/* ── Toggle Switch ── */
+
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 42px;
+    height: 24px;
+    cursor: pointer;
+}
+
+.toggle-switch input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.toggle-track {
+    position: absolute;
+    inset: 0;
+    background: var(--input-border);
+    border-radius: 12px;
+    transition: background 0.2s ease;
+}
+
+.toggle-track::before {
+    content: '';
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 18px;
+    height: 18px;
+    background: #ffffff;
+    border-radius: 50%;
+    transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+}
+
+.toggle-switch input:checked+.toggle-track {
+    background: var(--accent);
+}
+
+.toggle-switch input:checked+.toggle-track::before {
+    transform: translateX(18px);
+}
+
+.toggle-switch input:focus-visible+.toggle-track {
+    box-shadow: 0 0 0 3px var(--accent-subtle);
+}
+
+/* ── Range Slider ── */
+
+.range-wrap {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 180px;
+}
+
+.range-wrap input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    flex: 1;
+    height: 4px;
+    background: var(--border);
+    border-radius: 2px;
+    outline: none;
+    cursor: pointer;
+}
+
+.range-wrap input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 16px;
+    height: 16px;
+    background: var(--accent);
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+    transition: transform 0.1s ease;
+}
+
+.range-wrap input[type="range"]::-webkit-slider-thumb:hover {
+    transform: scale(1.15);
+}
+
+.range-wrap input[type="range"]::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    background: var(--accent);
+    border-radius: 50%;
+    cursor: pointer;
+    border: none;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+}
+
+.range-value {
+    font-size: 12px;
+    font-family: var(--font-mono);
+    color: var(--text-secondary);
+    min-width: 42px;
+    text-align: right;
+}
+
+/* ── Select ── */
+
+.select-wrap select {
+    -webkit-appearance: none;
+    appearance: none;
+    padding: 6px 34px 6px 12px;
+    border: 1px solid var(--input-border);
+    border-radius: 8px;
+    background: var(--input-bg);
+    color: var(--text-primary);
+    font-size: 13px;
+    cursor: pointer;
+    outline: none;
+    min-width: 140px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23999' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    transition: border-color 0.15s;
+}
+
+.select-wrap select:focus {
+    border-color: var(--input-focus);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--input-focus) 15%, transparent);
+}
+
+/* ── Text Input ── */
+
+.text-wrap input[type="text"] {
+    padding: 6px 12px;
+    border: 1px solid var(--input-border);
+    border-radius: 8px;
+    background: var(--input-bg);
+    color: var(--text-primary);
+    font-size: 13px;
+    outline: none;
+    width: 180px;
+    transition: border-color 0.15s;
+}
+
+.text-wrap input[type="text"]:focus {
+    border-color: var(--input-focus);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--input-focus) 15%, transparent);
+}
+
+
+/* ─────────────────────────────────────────
+   11. Storage Inspector
+   ───────────────────────────────────────── */
+
+.storage-bar {
+    width: 100%;
+    height: 10px;
+    background: var(--border);
+    border-radius: 5px;
+    overflow: hidden;
+    margin: 16px 0 10px;
+}
+
+.storage-fill {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 5px;
+    transition: width 0.4s ease;
+    min-width: 2px;
+}
+
+.storage-fill.warn {
+    background: #f59e0b;
+}
+
+.storage-fill.danger {
+    background: #ef4444;
+}
+
+.storage-text {
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-bottom: 16px;
+}
+
+.storage-text strong {
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.storage-detail {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 16px;
+}
+
+.storage-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 14px;
+    font-size: 13px;
+    border-bottom: 1px solid var(--border-light);
+}
+
+.storage-row:last-child {
+    border-bottom: none;
+}
+
+.storage-row-label {
+    color: var(--text-secondary);
+}
+
+.storage-row-value {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--text-primary);
+}
+
+.storage-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.storage-btn {
+    padding: 7px 16px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    background: var(--bg-surface);
+    cursor: pointer;
+    transition: all 0.12s;
+}
+
+.storage-btn:hover {
+    background: var(--toolbar-btn-hover);
+    color: var(--text-primary);
+    border-color: var(--text-muted);
+}
+
+.storage-btn.danger:hover {
+    color: #ef4444;
+    border-color: #ef4444;
+    background: color-mix(in srgb, #ef4444 8%, transparent);
+}
+
+
+/* ─────────────────────────────────────────
+   12. About Tab
+   ───────────────────────────────────────── */
+
+.about-header {
+    text-align: center;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border-light);
+    margin-bottom: 20px;
+}
+
+.about-name {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+
+.about-version {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-top: 4px;
+}
+
+.about-desc {
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-top: 8px;
+    line-height: 1.6;
+}
+
+.about-section-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 20px 0 10px;
+}
+
+.shortcut-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px 24px;
+}
+
+.shortcut-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 0;
+    font-size: 12.5px;
+    color: var(--text-secondary);
+}
+
+.shortcut-key {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    background: var(--code-bg);
+    color: var(--text-primary);
+    padding: 2px 7px;
+    border-radius: 4px;
+    border: 1px solid var(--border-light);
+    white-space: nowrap;
+}
+
+
+/* ─────────────────────────────────────────
+   13. Toast Notification
+   ───────────────────────────────────────── */
+
+.toast {
+    position: fixed;
+    bottom: 48px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: var(--toast-bg);
+    color: var(--toast-text);
+    padding: 10px 24px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 500;
+    box-shadow: 0 8px 30px var(--shadow-lg);
+    z-index: 2000;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+
+/* ─────────────────────────────────────────
+   14. Webkit Scrollbar
+   ───────────────────────────────────────── */
+
+::-webkit-scrollbar {
+    width: 7px;
+    height: 7px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--scrollbar-track);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-thumb);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--text-muted);
+}
+
+.editor-area::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+
+/* ─────────────────────────────────────────
+   15. Animations
+   ───────────────────────────────────────── */
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(16px) scale(0.98);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+
+/* ─────────────────────────────────────────
+   16. Focus & Accessibility
+   ───────────────────────────────────────── */
+
+:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
+.editor-content:focus-visible {
+    outline: none;
+}
+
+.toolbar-btn:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: -1px;
+    border-radius: 6px;
+}
+
+/* 打印时隐藏工具栏/状态栏 */
+@media print {
+
+    .toolbar,
+    .status-bar,
+    .toast,
+    .modal-overlay {
+        display: none !important;
+    }
+
+    .editor-area {
+        overflow: visible;
+    }
+
+    .editor-wrap {
+        padding: 0;
+        max-width: none;
+    }
+}
+
+
+/* ─────────────────────────────────────────
+   17. Responsive
+   ───────────────────────────────────────── */
+
+@media (max-width: 680px) {
+    .modal-panel {
+        width: 100%;
+        max-width: 100%;
+        max-height: 100vh;
+        max-height: 100dvh;
+        border-radius: 0;
+    }
+
+    .modal-body {
+        flex-direction: column;
+    }
+
+    .modal-sidebar {
+        width: 100%;
+        flex-direction: row;
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+        padding: 8px;
+        overflow-x: auto;
+        gap: 4px;
+    }
+
+    .modal-tab {
+        white-space: nowrap;
+        padding: 6px 12px;
+        font-size: 12px;
+    }
+
+    .modal-divider {
+        display: none;
+    }
+
+    .shortcut-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .editor-wrap {
+        padding: 32px 16px 200px;
+    }
+
+    .toolbar-btn-text span {
+        display: none;
+    }
+}
