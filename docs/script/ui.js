@@ -20,7 +20,19 @@ class Toolbar {
         this.container.innerHTML = `
         <div class="toolbar-row">
         <div class="toolbar-group">
-                <span class="fe-logo-word">FlashEdit</span>
+                <span class="fe-logo-word">
+                <i style="display:inline-block;width:1rem;height:1rem;">
+                    <svg xmlns=" http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 229 229" overflow="hidden">
+                        <g transform="translate(1 1)">
+                            <rect x="0" y="0" width="227" height="227" fill="#FFFFFF" fill-opacity="0" />
+                            <rect x="113" y="113" width="114" height="114" fill="#002060" />
+                            <path d="M0 227 73.312 0 153.688 0 227 227Z" fill="#0070C0" fill-rule="evenodd"
+                                transform="matrix(1 -1.22465e-16 -1.22465e-16 -1 2.44442e-14 227)" />
+                            <rect x="113" y="0" width="114" height="113" fill="#002060" />
+                        </g>
+                    </svg>
+                </i>
+                FlashEdit</span>
         </div>
             <span class="toolbar-sep"></span>
         <div class="toolbar-group">
