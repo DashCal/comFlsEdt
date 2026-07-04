@@ -220,6 +220,11 @@ textarea {
 .fe-logo-word {
     font-weight: 700;
     color: var(--accent);
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: .2rem;
 }
 
 .toolbar-group {
